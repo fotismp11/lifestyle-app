@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lifestyle</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap');
+
+:root {
+  --bg: #f2f4f8;
+  --surface: #ffffff;
+  --surface2: #f7f8fc;
+  --border: #e8ecf4;
+  --text: #1a1f36;
+  --text-dim: #6b7280;
+  --text-muted: #b0b8cc;
+  --blue: #4f6ef7;
+  --blue-light: #eef1fe;
+  --blue-mid: rgba(79,110,247,0.15);
+  --indigo: #3d52d5;
+  --cyan: #38bdf8;
+  --cyan-light: #e0f7ff;
+  --green: #22c55e;
+  --green-light: #dcfce7;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --orange: #f97316;
+  --orange-light: #ffedd5;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --yellow: #eab308;
+  --yellow-light: #fef9c3;
+  --shadow-sm: 0 1px 3px rgba(30,40,80,0.06), 0 1px 2px rgba(30,40,80,0.04);
+  --shadow: 0 4px 16px rgba(30,40,80,0.08), 0 1px 4px rgba(30,40,80,0.04);
+  --shadow-lg: 0 8px 32px rgba(30,40,80,0.12);
+  --radius: 18px;
+  --radius-sm: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Nunito Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+.app { max-width: 480px; margin: 0 auto; padding: 0 0 90px; }
+
+/* HEADER */
+.header {
+  padding: 20px 20px 0;
+  background: var(--bg);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 8px;
+}
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.app-title { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: var(--blue); letter-spacing: -0.5px; }
+.streak-bar { display: flex; gap: 6px; }
+.streak-chip {
+  font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--blue-light); color: var(--blue);
+}
+.streak-chip.bad { background: var(--red-light); color: var(--red); }
+
+/* DATE NAV */
+.date-nav { display: flex; align-items: center; gap: 8px; }
+.date-nav button {
+  width: 32px; height: 32px;
+  border: none; border-radius: 10px;
+  background: var(--surface2);
+  color: var(--text-dim);
+  font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.date-nav button:hover { background: var(--blue-light); color: var(--blue); }
+.date-picker-wrap { flex: 1; position: relative; }
+.date-display {
+  padding: 8px 14px;
+  background: var(--surface2);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--text);
+  cursor: pointer; text-align: center;
+  transition: all 0.15s; user-select: none;
+}
+.date-display:hover, .date-display.has-data { background: var(--blue-light); color: var(--blue); }
+input[type="date"]#hiddenDate { position: absolute; opacity: 0; width: 100%; height: 100%; top: 0; left: 0; cursor: pointer; }
+.today-btn {
+  padding: 0 12px; height: 32px;
+  border: none; border-radius: 10px;
+  background: var(--blue); color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.15s;
+}
+.today-btn:hover { background: var(--indigo); }
+
+/* TABS */
+.tabs-wrap { padding: 0 20px 8px; background: var(--bg); position: sticky; top: 110px; z-index: 99; }
+.tabs {
+  display: flex; gap: 6px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 5px;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.2s;
+}
+.tab.active { background: var(--blue); color: white; box-shadow: 0 2px 8px rgba(79,110,247,0.3); }
+
+/* SECTIONS */
+.section { display: none; padding: 0 20px; }
+.section.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.card-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: var(--text); }
+.card-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+/* FIELDS */
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.5px; }
+.field textarea {
+  width: 100%; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px; padding: 12px 14px; outline: none; resize: none;
+  transition: border-color 0.2s;
+}
+.field textarea:focus { border-color: var(--blue); }
+
+/* SLEEP GRID */
+.sleep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sleep-field label { font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+.sleep-field input {
+  width: 100%; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font-family: 'Nunito', sans-serif;
+  font-size: 18px; font-weight: 700; padding: 10px 12px;
+  outline: none; text-align: center; transition: all 0.2s;
+}
+.sleep-field input:focus { border-color: var(--blue); background: var(--blue-light); }
+.sleep-field input::placeholder { color: var(--text-muted); font-size: 13px; font-weight: 400; }
+.sleep-field.full { grid-column: 1/-1; }
+
+/* TOGGLE BUTTONS */
+.toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.toggle-btn {
+  padding: 8px 14px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface2); color: var(--text-dim);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.toggle-btn:hover { border-color: var(--blue); color: var(--blue); }
+.toggle-btn.active { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+.toggle-btn.active.bad { border-color: var(--red); color: var(--red); background: var(--red-light); }
+
+/* MEAL TABLE */
+.meal-table { width: 100%; border-collapse: collapse; }
+.meal-table th { font-size: 10px; font-weight: 700; color: var(--text-muted); text-align: left; padding: 3px 6px 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.meal-label { font-size: 12px; font-weight: 700; color: var(--text-dim); padding: 7px 4px 0; white-space: nowrap; }
+.meal-input {
+  width: 100%; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--text); font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px; padding: 7px 9px; outline: none; transition: border-color 0.2s;
+}
+.meal-input:focus { border-color: var(--blue); }
+.meal-select {
+  width: 100%; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--blue); font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; padding: 7px 4px; outline: none; cursor: pointer;
+}
+.meal-select option { background: white; }
+
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+.hint { font-size: 10px; color: var(--text-muted); line-height: 1.9; margin-top: 10px; }
+
+/* SAVE BTN */
+.save-btn {
+  width: 100%; padding: 15px;
+  background: var(--blue); color: white;
+  border: none; border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 800;
+  cursor: pointer; margin-top: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(79,110,247,0.35);
+}
+.save-btn:hover { background: var(--indigo); box-shadow: 0 6px 20px rgba(79,110,247,0.45); transform: translateY(-1px); }
+.save-btn:active { transform: translateY(0); }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.stat-card {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 16px; box-shadow: var(--shadow);
+}
+.stat-icon { font-size: 22px; margin-bottom: 8px; }
+.stat-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.stat-value { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 800; }
+.stat-value.blue { color: var(--blue); }
+.stat-value.green { color: var(--green); }
+.stat-value.orange { color: var(--orange); }
+.stat-value.purple { color: var(--purple); }
+
+/* DONUT CHART */
+.donut-wrap { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+.donut-svg { flex-shrink: 0; }
+.donut-legend { display: flex; flex-direction: column; gap: 8px; }
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-size: 11px; color: var(--text-dim); }
+.legend-val { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); }
+
+/* CHART */
+.chart-wrap { height: 100px; margin: 10px 0 4px; position: relative; }
+canvas { width: 100% !important; }
+.chart-label { font-size: 10px; color: var(--text-muted); text-align: center; }
+
+/* HISTORY */
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-item {
+  background: var(--surface); border-radius: var(--radius-sm);
+  padding: 14px 16px; cursor: pointer;
+  box-shadow: var(--shadow-sm); transition: all 0.15s;
+}
+.history-item:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.history-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.history-date { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; color: var(--text); }
+.history-badges { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+.badge.clean { background: var(--green-light); color: var(--green); }
+.badge.smoke { background: var(--red-light); color: var(--red); }
+.badge.sleep { background: var(--blue-light); color: var(--blue); }
+.badge.gym { background: var(--orange-light); color: var(--orange); }
+.badge.money { background: var(--purple-light); color: var(--purple); }
+
+/* FINANCIALS */
+.expense-grid { display: flex; flex-direction: column; gap: 8px; }
+.expense-row { display: flex; align-items: center; gap: 10px; }
+.expense-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+.expense-cat { font-size: 13px; font-weight: 600; color: var(--text-dim); flex: 1; }
+.expense-input {
+  width: 90px; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--text); font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 700; padding: 7px 10px;
+  outline: none; text-align: right; transition: all 0.2s;
+}
+.expense-input:focus { border-color: var(--blue); background: var(--blue-light); }
+.expense-total-row { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
+.expense-total { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: var(--blue); }
+
+.income-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.income-label { font-size: 13px; font-weight: 600; color: var(--text-dim); flex: 1; }
+.income-input {
+  width: 120px; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--text); font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 700; padding: 7px 10px;
+  outline: none; text-align: right; transition: all 0.2s;
+}
+.income-input:focus { border-color: var(--blue); }
+
+.balance-card { border-radius: var(--radius-sm); padding: 18px; margin-top: 12px; }
+.balance-card.positive { background: var(--green-light); }
+.balance-card.negative { background: var(--red-light); }
+.balance-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.balance-value { font-family: 'Nunito', sans-serif; font-size: 32px; font-weight: 800; }
+.balance-value.positive { color: var(--green); }
+.balance-value.negative { color: var(--red); }
+
+.month-tabs { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+.month-tab {
+  padding: 6px 12px; border-radius: 8px;
+  background: var(--surface2); color: var(--text-muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+}
+.month-tab.active { background: var(--blue); color: white; }
+.section-sub { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; color: var(--text-dim); margin: 18px 0 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* AI */
+.ai-messages { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; min-height: 200px; max-height: 400px; overflow-y: auto; }
+.msg { padding: 12px 14px; border-radius: 14px; font-size: 13px; line-height: 1.6; max-width: 92%; }
+.msg.ai { background: var(--surface2); align-self: flex-start; color: var(--text); }
+.msg.user { background: var(--blue); color: white; align-self: flex-end; }
+.msg.loading { color: var(--text-muted); font-style: italic; background: var(--surface2); align-self: flex-start; }
+.ai-input-wrap { display: flex; gap: 8px; }
+.ai-input-wrap input {
+  flex: 1; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px; padding: 12px 14px; outline: none; transition: border-color 0.2s;
+}
+.ai-input-wrap input:focus { border-color: var(--blue); }
+.send-btn {
+  padding: 12px 18px; background: var(--blue); color: white;
+  border: none; border-radius: var(--radius-sm);
+  font-size: 18px; cursor: pointer; transition: all 0.15s;
+  box-shadow: 0 2px 8px rgba(79,110,247,0.3);
+}
+.send-btn:hover { background: var(--indigo); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 100px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: white;
+  padding: 12px 24px; border-radius: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700;
+  opacity: 0; transition: all 0.3s;
+  pointer-events: none; z-index: 200;
+  box-shadow: var(--shadow-lg);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%; max-width: 480px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 10px 20px 20px;
+  display: flex; gap: 4px;
+  box-shadow: 0 -4px 20px rgba(30,40,80,0.06);
+}
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  padding: 8px 4px; cursor: pointer;
+  color: var(--text-muted); font-size: 10px;
+  font-family: 'Nunito', sans-serif; font-weight: 700;
+  transition: color 0.2s; border: none; background: none;
+  border-radius: 10px;
+}
+.nav-btn.active { color: var(--blue); background: var(--blue-light); }
+.nav-icon { font-size: 20px; }
+
+.empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; }
+.empty .icon { font-size: 36px; margin-bottom: 10px; opacity: 0.5; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-top">
+        <div class="app-title">lifestyle</div>
+        <div class="streak-bar" id="streakBar"></div>
+      </div>
+      <div class="date-nav">
+        <button onclick="changeDay(-1)">‹</button>
+        <div class="date-picker-wrap">
+          <div class="date-display" id="dateDisplay" onclick="document.getElementById('hiddenDate').showPicker()"></div>
+          <input type="date" id="hiddenDate" min="2026-01-01" max="2026-12-31" onchange="setDate(this.value)">
+        </div>
+        <button onclick="changeDay(1)">›</button>
+        <button class="today-btn" onclick="setDate(todayStr())">Σήμερα</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('log',this)">Ημέρα</div>
+      <div class="tab" onclick="switchTab('wallet',this)">Πορτοφόλι</div>
+      <div class="tab" onclick="switchTab('finance',this)">Οικονομικά</div>
+      <div class="tab" onclick="switchTab('stats',this)">Στατιστικά</div>
+      <div class="tab" onclick="switchTab('history',this)">Ιστορικό</div>
+      <div class="tab" onclick="switchTab('ai',this)">AI</div>
+    </div>
+  </div>
+
+  <!-- LOG TAB -->
+  <div class="section active" id="tab-log">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--red-light)">🚬</div>
+        <div><div class="card-title">Καταχρήσεις</div></div>
+      </div>
+      <div class="field">
+        <label>Τσιγάρο / Veev</label>
+        <div class="toggle-group" id="tg-smoke">
+          <button class="toggle-btn" onclick="setVal('smoke',0,this,false)">Καθαρός</button>
+          <button class="toggle-btn" onclick="setVal('smoke',1,this,true)">1</button>
+          <button class="toggle-btn" onclick="setVal('smoke',2,this,true)">2-3</button>
+          <button class="toggle-btn" onclick="setVal('smoke',3,this,true)">4+</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Χόρτο (μπάφοι)</label>
+        <div class="toggle-group" id="tg-weed">
+          <button class="toggle-btn" onclick="setVal('weed',0,this,false)">Καθαρός</button>
+          <button class="toggle-btn" onclick="setVal('weed',1,this,true)">1</button>
+          <button class="toggle-btn" onclick="setVal('weed',2,this,true)">2</button>
+          <button class="toggle-btn" onclick="setVal('weed',3,this,true)">3</button>
+          <button class="toggle-btn" onclick="setVal('weed',4,this,true)">4</button>
+          <button class="toggle-btn" onclick="setVal('weed',5,this,true)">5+</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Ποτό</label>
+        <div class="toggle-group" id="tg-alcohol">
+          <button class="toggle-btn" onclick="setVal('alcohol',0,this,false)">Καθαρός</button>
+          <button class="toggle-btn" onclick="setVal('alcohol',1,this,true)">1</button>
+          <button class="toggle-btn" onclick="setVal('alcohol',2,this,true)">2</button>
+          <button class="toggle-btn" onclick="setVal('alcohol',3,this,true)">3</button>
+          <button class="toggle-btn" onclick="setVal('alcohol',4,this,true)">4</button>
+          <button class="toggle-btn" onclick="setVal('alcohol',5,this,true)">5+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--purple-light)">😴</div>
+        <div><div class="card-title">Ύπνος</div></div>
+      </div>
+      <div class="sleep-grid">
+        <div class="sleep-field"><label>Ώρες</label><input type="number" min="0" max="24" placeholder="ώρες" id="sleepH" oninput="updateSleep()"></div>
+        <div class="sleep-field"><label>Λεπτά</label><input type="number" min="0" max="59" placeholder="λεπτά" id="sleepM" oninput="updateSleep()"></div>
+        <div class="sleep-field"><label>REM %</label><input type="number" min="0" max="100" placeholder="%" id="remPct" oninput="logData.remPct=parseInt(this.value)||0"></div>
+        <div class="sleep-field"><label>Βαθύς %</label><input type="number" min="0" max="100" placeholder="%" id="deepPct" oninput="logData.deepPct=parseInt(this.value)||0"></div>
+        <div class="sleep-field"><label>Ελαφρύς %</label><input type="number" min="0" max="100" placeholder="%" id="lightPct" oninput="logData.lightPct=parseInt(this.value)||0"></div>
+        <div class="sleep-field"><label>Μέσος Καρδιακός Ρυθμός</label><input type="number" min="30" max="120" placeholder="π" id="heartRate" oninput="logData.heartRate=parseInt(this.value)||0"></div>
+        <div class="sleep-field full"><label>Βαθμολογία Αναπνοής</label><input type="number" min="1" max="100" placeholder="1-100" id="breathScore" oninput="logData.breathScore=parseInt(this.value)||0"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--green-light)">🥗</div>
+        <div><div class="card-title">Διατροφή</div></div>
+      </div>
+      <div class="field">
+        <label>Φαγητό απ' έξω</label>
+        <div class="toggle-group" id="tg-eatOut">
+          <button class="toggle-btn" onclick="setVal('eatOut',0,this,false)">Καθόλου</button>
+          <button class="toggle-btn" onclick="setVal('eatOut',1,this,true)">1</button>
+          <button class="toggle-btn" onclick="setVal('eatOut',2,this,true)">2</button>
+          <button class="toggle-btn" onclick="setVal('eatOut',3,this,true)">3+</button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <table class="meal-table">
+        <thead><tr><th style="width:95px">Γεύμα</th><th>Τι έφαγα</th><th style="width:52px">Βαθμός</th></tr></thead>
+        <tbody id="mealBody"></tbody>
+      </table>
+      <div class="hint">1 Junk · 2 Υδατάνθρακας · 3 Μαγ. χωρίς πρωτεΐνη · 4 Πρωτεΐνη+Υδ. · 5 Πρωτεΐνη+Λαχ.+Λιπαρά</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--orange-light)">🏀</div>
+        <div><div class="card-title">Γυμναστική</div></div>
+      </div>
+      <div class="toggle-group" id="tg-gym">
+        <button class="toggle-btn" onclick="setVal('gym',0,this,false)">Καμία</button>
+        <button class="toggle-btn" onclick="setVal('gym',1,this,false)">Μπάσκετ</button>
+        <button class="toggle-btn" onclick="setVal('gym',2,this,false)">Γυμναστήριο</button>
+        <button class="toggle-btn" onclick="setVal('gym',3,this,false)">Άλλο</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--blue-light)">📝</div>
+        <div><div class="card-title">Σημειώσεις</div></div>
+      </div>
+      <textarea id="notesField" placeholder="Πώς ήταν η μέρα σου;" rows="3" oninput="logData.notes=this.value"></textarea>
+    </div>
+
+    <button class="save-btn" onclick="saveDay()">Αποθήκευση ημέρας</button>
+  </div>
+
+  <!-- FINANCE TAB -->
+  <!-- WALLET TAB -->
+  <div class="section" id="tab-wallet">
+
+    <!-- AVAILABLE BALANCE CARD -->
+    <div class="card" style="background:linear-gradient(135deg,#4f6ef7,#3d52d5);color:white;border:none">
+      <div style="font-size:12px;font-weight:700;opacity:0.8;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Διαθέσιμο Υπόλοιπο</div>
+      <div id="walletBalance" style="font-family:'Nunito',sans-serif;font-size:42px;font-weight:800;margin-bottom:4px">0,00 €</div>
+      <div id="walletDaysLeft" style="font-size:13px;opacity:0.85;margin-bottom:12px"></div>
+      <div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;opacity:0.8">Ανά μέρα</span>
+        <span id="walletPerDay" style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:800">0,00 €</span>
+      </div>
+    </div>
+
+    <!-- NEXT PAYMENT -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--green-light)">📅</div>
+        <div><div class="card-title">Επόμενη Πληρωμή</div><div class="card-sub">Ορίσου χειροκίνητα</div></div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Ημερομηνία τελευταίας πληρωμής</div>
+        <input type="date" id="lastPaymentDate" min="2026-01-01" max="2026-12-31"
+          style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none"
+          oninput="saveWalletSettings()">
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Επόμενη πληρωμή</div>
+          <input type="date" id="nextPaymentDate" min="2026-01-01" max="2026-12-31"
+            style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none"
+            oninput="saveWalletSettings()">
+        </div>
+      </div>
+    </div>
+
+    <!-- SAVINGS & INVESTMENTS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🏦</div>
+        <div class="stat-label">Αποταμιεύσεις</div>
+        <div class="stat-value green" id="totalSavings" style="font-size:22px">0,00 €</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Σωρευτικά 2026</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📈</div>
+        <div class="stat-label">Επενδύσεις VUAA</div>
+        <div class="stat-value blue" id="totalInvestments" style="font-size:22px">0,00 €</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Σωρευτικά 2026</div>
+      </div>
+    </div>
+
+    <!-- NET WORTH CARD -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--purple-light)">💎</div>
+        <div><div class="card-title">Σύνολο Περιουσίας</div><div class="card-sub">Αποταμιεύσεις + Επενδύσεις</div></div>
+      </div>
+      <div id="netWorthValue" style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:800;color:var(--purple)">0,00 €</div>
+    </div>
+
+    <!-- MONTHLY INCOME SUMMARY -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--cyan-light)">📊</div>
+        <div><div class="card-title">Ροή Χρημάτων 2026</div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim)">Συνολικά Εισοδήματα</span>
+        <span id="wTotalIncome" style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--green)">0,00 €</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim)">Συνολικά Έξοδα</span>
+        <span id="wTotalExpenses" style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--red)">0,00 €</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim)">Επενδύσεις</span>
+        <span id="wTotalInvest" style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--blue)">0,00 €</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim)">Αποταμιεύσεις</span>
+        <span id="wTotalSavings2" style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--green)">0,00 €</span>
+      </div>
+    </div>
+
+  </div>
+
+    <div class="section" id="tab-finance">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--blue-light)">💳</div>
+        <div><div class="card-title">Έξοδα ημέρας</div></div>
+      </div>
+      <div class="expense-grid" id="expenseGrid"></div>
+      <div class="divider"></div>
+      <div class="expense-total-row">
+        <span style="font-size:13px;font-weight:700;color:var(--text-muted)">Σύνολο</span>
+        <span class="expense-total" id="expenseTotal">0,00 €</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--green-light)">💰</div>
+        <div><div class="card-title">Έσοδα & Αποταμίευση</div></div>
+      </div>
+      <div class="income-row"><span class="income-label">Εισόδημα</span><input type="number" class="income-input" id="incomeField" placeholder="0,00" oninput="updateIncome()"></div>
+      <div class="income-row"><span class="income-label">Επενδύσεις (10%)</span><input type="number" class="income-input" id="investField" placeholder="0,00" readonly style="color:var(--text-muted)"></div>
+      <div class="income-row"><span class="income-label">Αποταμίευση</span><input type="number" class="income-input" id="savingsField" placeholder="0,00" oninput="updateBalance()"></div>
+    </div>
+
+    <div id="balanceCard" class="balance-card positive" style="display:none">
+      <div class="balance-label">Καθαρό υπόλοιπο</div>
+      <div class="balance-value positive" id="balanceValue">0,00 €</div>
+    </div>
+
+    <button class="save-btn" onclick="saveFinance()">Αποθήκευση οικονομικών</button>
+
+    <div class="section-sub">Μηνιαία Ανάλυση</div>
+    <div class="month-tabs" id="monthTabs"></div>
+    <div id="monthSummary"></div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div class="section" id="tab-stats">
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--purple-light)">😴</div>
+        <div><div class="card-title">Ύπνος</div><div class="card-sub">Τελευταίες 14 μέρες</div></div>
+      </div>
+      <div id="sleepDonut"></div>
+      <div class="divider"></div>
+      <div class="chart-wrap"><canvas id="sleepChart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--red-light)">🚬</div>
+        <div><div class="card-title">Καταχρήσεις</div><div class="card-sub">Τελευταίες 14 μέρες</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="smokeChart"></canvas></div>
+      <div class="chart-label" style="margin-top:4px">Τσιγάρο</div>
+      <div class="chart-wrap" style="margin-top:12px"><canvas id="weedChart"></canvas></div>
+      <div class="chart-label" style="margin-top:4px">Χόρτο</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--cyan-light)">❤️</div>
+        <div><div class="card-title">Καρδιακός Ρυθμός</div><div class="card-sub">Τελευταίες 14 μέρες</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div class="section" id="tab-history">
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <!-- AI TAB -->
+  <div class="section" id="tab-ai">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--blue-light)">🤖</div>
+        <div><div class="card-title">AI Βοηθός</div><div class="card-sub">Αναλύει τα δεδομένα σου</div></div>
+      </div>
+      <div class="ai-messages" id="aiMessages">
+        <div class="msg ai">Γεια! Μπορώ να αναλύσω τα δεδομένα σου, να βρω μοτίβα και συσχετισμούς, ή απλά να μιλήσουμε.</div>
+      </div>
+      <div class="ai-input-wrap">
+        <input type="text" id="aiInput" placeholder="Γράψε κάτι..." onkeydown="if(event.key==='Enter') sendAI()">
+        <button class="send-btn" onclick="sendAI()">→</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const MEALS=['Πρωινό','Δεκατιανό','Μεσημεριανό','Απογευματινό','Βραδινό'];
+const MEAL_KEYS=['breakfast','midmorning','lunch','afternoon','dinner'];
+const EXPENSE_CATS=["Τσιγάρα","Πρωινό","Καφές","Σουπερμάρκετ","Φαγητό απ' έξω","Καπνικά","Ποτό","Διάφορα","Αυτοκίνητο","Πάγια / Λογαριασμοί","Δώρα / Κεράσματα","Ψώνια","Lifestyle"];
+const MONTHS_EL=['Ιαν','Φεβ','Μαρ','Απρ','Μαι','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
+
+let currentDate=todayStr();
+let logData=emptyLog();
+let finData=emptyFin();
+
+function emptyLog(){return{smoke:null,weed:null,alcohol:null,eatOut:null,gym:null,notes:'',sleepHours:0,sleepH:0,sleepM:0,remPct:0,deepPct:0,lightPct:0,heartRate:0,breathScore:0,meals:{breakfast:{food:'',score:0},midmorning:{food:'',score:0},lunch:{food:'',score:0},afternoon:{food:'',score:0},dinner:{food:'',score:0}}};}
+function emptyFin(){const e={};EXPENSE_CATS.forEach(c=>e[c]=0);return{expenses:e,income:0,investments:0,savings:0};}
+
+const SUPABASE_URL='https://vpbhqxlzgcptuvxpicxg.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwYmhxeGx6Z2NwdHV2eHBpY3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwMzUzNjksImV4cCI6MjA5MDYxMTM2OX0.lPlbemX1zPkblOH0Vq7MW2cX6AhZ_Nw0uYpyzQ8GFmI';
+let _cache={};
+function getAllData(){return _cache;}
+function getDay(date){return _cache[date]||{};}
+async function loadAllFromDB(){
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/entries?select=date,data&order=date',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
+    const rows=await res.json();
+    _cache={};
+    if(Array.isArray(rows))rows.forEach(r=>{try{_cache[r.date]=JSON.parse(r.data);}catch{}});
+  }catch(e){console.error('DB load',e);}
+}
+async function setDay(date,data){
+  _cache[date]=data;
+  const payload=JSON.stringify(data);
+  try{
+    // Check if row exists
+    const check=await fetch(SUPABASE_URL+'/rest/v1/entries?date=eq.'+date+'&select=date',{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+    });
+    const rows=await check.json();
+    if(rows.length>0){
+      // Update existing
+      await fetch(SUPABASE_URL+'/rest/v1/entries?date=eq.'+date,{
+        method:'PATCH',
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({data:payload})
+      });
+    } else {
+      // Insert new
+      await fetch(SUPABASE_URL+'/rest/v1/entries',{
+        method:'POST',
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({date,data:payload})
+      });
+    }
+  }catch(e){console.error('DB save',e);}
+}
+
+function todayStr(){return new Date().toISOString().split('T')[0];}
+function clamp(d){if(d<'2026-01-01')return'2026-01-01';if(d>'2026-12-31')return'2026-12-31';return d;}
+function formatLong(d){return new Date(d+'T12:00:00').toLocaleDateString('el-GR',{weekday:'long',day:'numeric',month:'long'});}
+function formatShort(d){return new Date(d+'T12:00:00').toLocaleDateString('el-GR',{weekday:'short',day:'numeric',month:'short'});}
+
+function changeDay(delta){const d=new Date(currentDate+'T12:00:00');d.setDate(d.getDate()+delta);setDate(clamp(d.toISOString().split('T')[0]));}
+function setDate(date){currentDate=clamp(date);document.getElementById('hiddenDate').value=currentDate;loadDay();}
+
+function loadDay(){
+  const saved=getDay(currentDate);
+  logData={...emptyLog(),...(saved.log||{})};
+  // Recalculate sleepH/sleepM from sleepHours if not stored
+  if(!logData.sleepH&&logData.sleepHours>0){logData.sleepH=Math.floor(logData.sleepHours);logData.sleepM=Math.round((logData.sleepHours-logData.sleepH)*60);}
+  finData={...emptyFin(),...(saved.fin||{})};
+  if(!finData.expenses)finData.expenses=emptyFin().expenses;
+  const hasData=!!(saved.log||saved.fin);
+  const disp=document.getElementById('dateDisplay');
+  disp.textContent=formatLong(currentDate);
+  disp.className='date-display'+(hasData?' has-data':'');
+  resetToggles();fillToggles();fillSleepFields();fillMealFields();fillExpenseFields();fillIncomeFields();
+  document.getElementById('notesField').value=logData.notes||'';
+  updateStreakBar();
+}
+
+function resetToggles(){document.querySelectorAll('.toggle-group .toggle-btn').forEach(b=>b.classList.remove('active','bad'));}
+function fillToggles(){
+  const map={smoke:'tg-smoke',weed:'tg-weed',alcohol:'tg-alcohol',eatOut:'tg-eatOut',gym:'tg-gym'};
+  Object.entries(map).forEach(([key,tgId])=>{
+    if(logData[key]===null||logData[key]===undefined)return;
+    const group=document.getElementById(tgId);if(!group)return;
+    const btns=group.querySelectorAll('.toggle-btn');
+    const idx=logData[key];
+    if(btns[idx]){btns[idx].classList.add('active');if(['smoke','weed','alcohol','eatOut'].includes(key)&&idx>0)btns[idx].classList.add('bad');}
+  });
+}
+function fillSleepFields(){
+  const h=logData.sleepH!==undefined?logData.sleepH:Math.floor(logData.sleepHours||0);
+  const m=logData.sleepM!==undefined?logData.sleepM:Math.round(((logData.sleepHours||0)-Math.floor(logData.sleepHours||0))*60);
+  document.getElementById('sleepH').value=logData.sleepHours>0?h:'';document.getElementById('sleepM').value=logData.sleepHours>0&&m>0?m:'';
+  document.getElementById('remPct').value=logData.remPct>0?logData.remPct:'';document.getElementById('deepPct').value=logData.deepPct>0?logData.deepPct:'';
+  document.getElementById('lightPct').value=logData.lightPct>0?logData.lightPct:'';document.getElementById('heartRate').value=logData.heartRate>0?logData.heartRate:'';
+  document.getElementById('breathScore').value=logData.breathScore>0?logData.breathScore:'';
+}
+function fillMealFields(){MEAL_KEYS.forEach(k=>{const fi=document.getElementById('mf_'+k),si=document.getElementById('ms_'+k);if(fi)fi.value=logData.meals?.[k]?.food||'';if(si)si.value=logData.meals?.[k]?.score||0;});}
+function fillExpenseFields(){EXPENSE_CATS.forEach((c,i)=>{const el=document.getElementById('exp_'+i);if(el)el.value=finData.expenses?.[c]||'';});updateExpenseTotal();}
+function fillIncomeFields(){document.getElementById('incomeField').value=finData.income||'';document.getElementById('investField').value=finData.investments||'';document.getElementById('savingsField').value=finData.savings||'';updateBalance();}
+
+function setVal(key,val,btn,isBad){
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active','bad'));
+  btn.classList.add('active');if(isBad&&val>0)btn.classList.add('bad');logData[key]=val;
+}
+function updateSleep(){const h=parseInt(document.getElementById('sleepH').value)||0,m=parseInt(document.getElementById('sleepM').value)||0;logData.sleepH=h;logData.sleepM=m;logData.sleepHours=h+(m/60);}
+
+function buildMealTable(){
+  document.getElementById('mealBody').innerHTML=MEALS.map((name,i)=>{const k=MEAL_KEYS[i];return`<tr><td class="meal-label">${name}</td><td><input class="meal-input" type="text" id="mf_${k}" placeholder="..."></td><td><select class="meal-select" id="ms_${k}"><option value="0">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td></tr>`;}).join('');
+  MEAL_KEYS.forEach(k=>{document.getElementById('mf_'+k).oninput=function(){if(!logData.meals)logData.meals={};if(!logData.meals[k])logData.meals[k]={food:'',score:0};logData.meals[k].food=this.value;};document.getElementById('ms_'+k).onchange=function(){if(!logData.meals)logData.meals={};if(!logData.meals[k])logData.meals[k]={food:'',score:0};logData.meals[k].score=parseInt(this.value)||0;};});
+}
+
+const EXPENSE_COLORS=['#ef4444','#f97316','#eab308','#22c55e','#3b82f6','#8b5cf6','#ec4899','#6b7280','#14b8a6','#f59e0b','#10b981','#6366f1','#4f6ef7'];
+function buildExpenseGrid(){
+  document.getElementById('expenseGrid').innerHTML=EXPENSE_CATS.map((c,i)=>`<div class="expense-row"><div class="expense-dot" style="background:${EXPENSE_COLORS[i]}"></div><span class="expense-cat">${c}</span><input type="number" class="expense-input" id="exp_${i}" placeholder="0" min="0" step="0.01" oninput="updateExpenseTotal()"></div>`).join('');
+}
+function updateExpenseTotal(){
+  let total=0;EXPENSE_CATS.forEach((c,i)=>{const v=parseFloat(document.getElementById('exp_'+i)?.value)||0;if(!finData.expenses)finData.expenses={};finData.expenses[c]=v;total+=v;});
+  document.getElementById('expenseTotal').textContent=fmt(total);updateBalance();
+}
+function updateIncome(){const inc=parseFloat(document.getElementById('incomeField').value)||0;finData.income=inc;finData.investments=Math.round(inc*0.1*100)/100;document.getElementById('investField').value=finData.investments||'';updateBalance();}
+function updateBalance(){
+  finData.savings=parseFloat(document.getElementById('savingsField').value)||0;
+  const totalExp=EXPENSE_CATS.reduce((s,c)=>s+(finData.expenses?.[c]||0),0);
+  const net=finData.income-finData.investments-finData.savings-totalExp;
+  const card=document.getElementById('balanceCard'),val=document.getElementById('balanceValue');
+  const isPos=net>=0;card.style.display='block';
+  card.className='balance-card '+(isPos?'positive':'negative');
+  val.className='balance-value '+(isPos?'positive':'negative');
+  val.textContent=(isPos?'+':'')+fmt(net);
+}
+function fmt(n){return n.toLocaleString('el-GR',{minimumFractionDigits:1,maximumFractionDigits:1})+' €';}
+
+let selectedMonth=new Date().getMonth();
+function buildMonthTabs(){document.getElementById('monthTabs').innerHTML=MONTHS_EL.map((m,i)=>`<button class="month-tab ${i===selectedMonth?'active':''}" onclick="selectMonth(${i},this)">${m}</button>`).join('');renderMonthSummary();}
+function selectMonth(i,btn){selectedMonth=i;document.querySelectorAll('.month-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMonthSummary();}
+function renderMonthSummary(){
+  const all=getAllData(),prefix=`2026-${String(selectedMonth+1).padStart(2,'0')}`;
+  const days=Object.entries(all).filter(([d])=>d.startsWith(prefix));
+  if(!days.length){document.getElementById('monthSummary').innerHTML='<div class="empty"><div class="icon">📊</div>Δεν υπάρχουν δεδομένα</div>';return;}
+  const totExp={};EXPENSE_CATS.forEach(c=>totExp[c]=0);
+  let totalIncome=0,totalInvest=0,totalSavings=0;
+  days.forEach(([,d])=>{if(d.fin){EXPENSE_CATS.forEach(c=>totExp[c]+=(d.fin.expenses?.[c]||0));totalIncome+=d.fin.income||0;totalInvest+=d.fin.investments||0;totalSavings+=d.fin.savings||0;}});
+  const totalExpSum=EXPENSE_CATS.reduce((s,c)=>s+totExp[c],0);
+  const net=totalIncome-totalInvest-totalSavings-totalExpSum,isPos=net>=0;
+  const rows=EXPENSE_CATS.filter(c=>totExp[c]>0).map((c,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:${EXPENSE_COLORS[i]};flex-shrink:0"></div><span style="font-size:13px;font-weight:600;color:var(--text-dim)">${c}</span></div><span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--text)">${fmt(totExp[c])}</span></div>`).join('');
+  document.getElementById('monthSummary').innerHTML=`
+    <div class="card"><div class="card-header"><div class="card-icon" style="background:var(--blue-light)">📊</div><div class="card-title">${MONTHS_EL[selectedMonth]} — Έξοδα</div></div>${rows}<div style="display:flex;justify-content:space-between;padding:12px 0 0"><span style="font-size:13px;font-weight:700;color:var(--text-muted)">Σύνολο</span><span style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--red)">${fmt(totalExpSum)}</span></div></div>
+    <div class="card"><div class="card-header"><div class="card-icon" style="background:var(--green-light)">💰</div><div class="card-title">${MONTHS_EL[selectedMonth]} — Σύνοψη</div></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600;color:var(--text-dim)">Εισόδημα</span><span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--green)">${fmt(totalIncome)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600;color:var(--text-dim)">Επενδύσεις</span><span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--text-dim)">${fmt(totalInvest)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600;color:var(--text-dim)">Αποταμίευση</span><span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--text-dim)">${fmt(totalSavings)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600;color:var(--text-dim)">Συνολικά έξοδα</span><span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--red)">${fmt(totalExpSum)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0 0"><span style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800">Υπόλοιπο</span><span style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:${isPos?'var(--green)':'var(--red)'}">${isPos?'+':''}${fmt(net)}</span></div>
+    </div>`;
+}
+
+async function saveDay(){
+  const saved=getDay(currentDate);
+  // Update cache immediately with current logData
+  const newData={...saved,log:{...logData}};
+  _cache[currentDate]=newData;
+  // Save to Supabase in background
+  setDay(currentDate,newData);
+  showToast('Αποθηκεύτηκε ✓');
+  updateStreakBar();
+  document.getElementById('dateDisplay').className='date-display has-data';
+}
+async function saveFinance(){updateExpenseTotal();const saved=getDay(currentDate);await setDay(currentDate,{...saved,fin:finData});showToast('Αποθηκεύτηκε ✓');renderMonthSummary();loadDay();}
+
+function calcStreak(key){
+  const all=getAllData();
+  const allDates=Object.keys(all).filter(d=>all[d].log&&all[d].log[key]!==null&&all[d].log[key]!==undefined).sort();
+  if(!allDates.length)return 0;
+  let streak=0;
+  let d=new Date(currentDate+'T12:00:00');
+  while(true){
+    const ds=d.toISOString().split('T')[0];
+    if(ds<'2026-01-01')break;
+    const dayLog=all[ds]?.log;
+    if(dayLog&&dayLog[key]!==null&&dayLog[key]!==undefined){
+      if(dayLog[key]===0)streak++;else break;
+    }else{
+      if(ds<allDates[0])break;
+      streak++;
+    }
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+
+function updateStreakBar(){
+  const s=calcCurrentStreak('smoke'),w=calcCurrentStreak('weed');
+  document.getElementById('streakBar').innerHTML=`<div class="streak-chip ${s>0?'':'bad'}">🚬 ${s}μ</div><div class="streak-chip ${w>0?'':'bad'}">🌿 ${w}μ</div>`;
+}
+
+function renderStats(){
+  const all=getAllData(),allDays=Object.entries(all).sort((a,b)=>a[0].localeCompare(b[0]));
+  const s=calcStreak('smoke'),w=calcStreak('weed');
+  const sleepArr=allDays.map(([,d])=>d.log?.sleepHours||0).filter(h=>h>0);
+  const avgSleepH=sleepArr.length?(sleepArr.reduce((a,b)=>a+b,0)/sleepArr.length):0;const avgSleep=avgSleepH>0?fmtSleep(avgSleepH):'—';
+  const gymDays=allDays.filter(([,d])=>d.log?.gym>0).length;
+  const smokeRec=calcRecord('smoke'),weedRec=calcRecord('weed');
+  const smokeCur=calcCurrentStreak('smoke'),weedCur=calcCurrentStreak('weed');
+  const smokePrev=calcPreviousBest('smoke'),weedPrev=calcPreviousBest('weed');
+  const smokeBest=Math.max(smokeCur,smokePrev),weedBest=Math.max(weedCur,weedPrev);
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="stat-card">
+      <div class="stat-icon">🚭</div>
+      <div class="stat-label">Τρέχον σερί — τσιγάρο</div>
+      <div class="stat-value green">${smokeCur}<span style="font-size:14px;font-weight:600"> μ.</span></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Ρεκόρ: ${smokeRec} μ.</div>
+      ${smokePrev>0&&smokeCur===0?'<div style="font-size:11px;color:var(--orange);margin-top:2px">Προηγ. καλύτερο: '+smokePrev+' μ.</div>':''}
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🌿</div>
+      <div class="stat-label">Τρέχον σερί — χόρτο</div>
+      <div class="stat-value green">${weedCur}<span style="font-size:14px;font-weight:600"> μ.</span></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Ρεκόρ: ${weedRec} μ.</div>
+      ${weedPrev>0&&weedCur===0?'<div style="font-size:11px;color:var(--orange);margin-top:2px">Προηγ. καλύτερο: '+weedPrev+' μ.</div>':''}
+    </div>
+    <div class="stat-card"><div class="stat-icon">😴</div><div class="stat-label">Μέσος ύπνος</div><div class="stat-value blue" style="font-size:22px">${avgSleep}</div></div>
+    <div class="stat-card"><div class="stat-icon">🏀</div><div class="stat-label">Συνολικές προπονήσεις</div><div class="stat-value orange">${gymDays}</div></div>`;
+
+  // Sleep donut from last available day
+  // Try current date first, then fall back to last available
+  const currentDayData=getAllData()[currentDate];
+  const donutDay=currentDayData?.log?.sleepHours>0?currentDayData:allDays.filter(([,d])=>d.log?.sleepHours>0).slice(-1)[0]?.[1];
+  if(donutDay){
+    const l=donutDay.log||donutDay;
+    const rem=l.remPct||0,deep=l.deepPct||0,light=l.lightPct||0;
+    const sleepH=l.sleepH!==undefined?l.sleepH:Math.floor(l.sleepHours||0);
+    const sleepMin=l.sleepM!==undefined?l.sleepM:Math.round(((l.sleepHours||0)-Math.floor(l.sleepHours||0))*60);
+    renderDonut(rem,deep,light,sleepH,sleepMin);
+  }
+
+  const l14=allDays.slice(-14);
+  drawBar('smokeChart',l14,([,d])=>d.log?.smoke||0,'#ef4444');
+  drawBar('weedChart',l14,([,d])=>d.log?.weed||0,'#8b5cf6');
+  drawBarSleep('sleepChart',l14);
+  drawBar('hrChart',l14,([,d])=>d.log?.heartRate||0,'#38bdf8',true);
+}
+
+function renderDonut(rem,deep,light,hours,mins=0){
+  const total=rem+deep+light||100;
+  const r=54,cx=70,cy=70,stroke=14;
+  function arc(pct,offset,color){
+    const c=2*Math.PI*r,dash=pct/100*c;
+    return`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-dasharray="${dash} ${c}" stroke-dashoffset="${-offset/100*c}" stroke-linecap="round" transform="rotate(-90 ${cx} ${cy})"/>`;
+  }
+  const svgSize=140;
+  document.getElementById('sleepDonut').innerHTML=`
+    <div class="donut-wrap">
+      <svg class="donut-svg" width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}">
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f0f0f0" stroke-width="${stroke}"/>
+        ${arc(deep,0,'#3d52d5')}
+        ${arc(light,deep,'#60a5fa')}
+        ${arc(rem,deep+light,'#93c5fd')}
+        <text x="${cx}" y="${cy-6}" text-anchor="middle" font-family="Nunito" font-size="16" font-weight="800" fill="#1a1f36">${mins>0?hours+"ω "+mins+"λ":hours+"ω"}</text>
+        <text x="${cx}" y="${cy+12}" text-anchor="middle" font-family="Nunito Sans" font-size="10" fill="#6b7280">ύπνος</text>
+      </svg>
+      <div class="donut-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#3d52d5"></div><div><div class="legend-label">Βαθύς</div><div class="legend-val">${deep}%</div></div></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div><div><div class="legend-label">Ελαφρύς</div><div class="legend-val">${light}%</div></div></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#93c5fd"></div><div><div class="legend-label">REM</div><div class="legend-val">${rem}%</div></div></div>
+      </div>
+    </div>`;
+}
+
+function fmtSleep(h){
+  if(!h) return '—';
+  const hrs=Math.floor(h);
+  const mins=Math.round((h-hrs)*60);
+  if(mins===0) return hrs+'ω';
+  return hrs+'ω '+mins+'λ';
+}
+
+function calcPreviousBest(key){
+  // Finds the best streak that is NOT the current ongoing streak
+  const all=getAllData();
+  const allDates=Object.keys(all).filter(d=>all[d].log&&all[d].log[key]!==null&&all[d].log[key]!==undefined).sort();
+  if(!allDates.length) return 0;
+  let bestStreak=0,cur=0,streaks=[];
+  for(const date of allDates){
+    const v=all[date].log[key];
+    if(v===0) cur++;
+    else{ if(cur>0) streaks.push(cur); cur=0; }
+  }
+  // If last streak is current (ongoing), exclude it
+  // streaks array has all COMPLETED streaks
+  if(streaks.length===0) return 0;
+  return Math.max(...streaks);
+}
+
+function calcRecord(key){
+  const all=getAllData();
+  const allDates=Object.keys(all).filter(d=>all[d].log&&all[d].log[key]!==null&&all[d].log[key]!==undefined).sort();
+  if(!allDates.length) return 0;
+  let maxStreak=0,cur=0;
+  for(const date of allDates){
+    const v=all[date].log[key];
+    if(v===0) cur++;
+    else cur=0;
+    if(cur>maxStreak) maxStreak=cur;
+  }
+  return maxStreak;
+}
+
+function calcCurrentStreak(key){
+  const all=getAllData();
+  const allDates=Object.keys(all).filter(d=>all[d].log&&all[d].log[key]!==null&&all[d].log[key]!==undefined).sort();
+  if(!allDates.length) return 0;
+  // Find streak ending at latest date with data
+  const sorted=[...allDates].reverse();
+  let streak=0;
+  for(const date of sorted){
+    const v=all[date].log[key];
+    if(v===0) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function drawBar(id,data,fn,color,showLabels=false){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),W=c.offsetWidth||320,H=showLabels?120:100;
+  c.width=W;c.height=H;
+  const vals=data.map(fn),max=Math.max(...vals)||1,min=vals.filter(v=>v>0).length?Math.min(...vals.filter(v=>v>0)):0;
+  const pad=6,bw=Math.max(4,(W-pad*2)/(data.length||1)-4);
+  const chartH=showLabels?H-22:H-16;
+  ctx.clearRect(0,0,W,H);
+  vals.forEach((v,i)=>{
+    const x=pad+i*((W-pad*2)/(data.length||1));
+    const h=v>0?(v-min*0.95)/(max-min*0.95+1)*chartH:0;
+    const y=chartH-h+8;
+    ctx.fillStyle=v===0?'#f0f4ff':color+'cc';
+    ctx.beginPath();
+    if(ctx.roundRect)ctx.roundRect(x,y,bw,h||3,4);else ctx.rect(x,y,bw,h||3);
+    ctx.fill();
+    if(showLabels&&v>0){
+      ctx.fillStyle='#6b7280';
+      ctx.font='bold 9px Nunito Sans';
+      ctx.textAlign='center';
+      ctx.fillText(Math.round(v),x+bw/2,y-3);
+    }
+  });
+}
+
+function drawBarSleep(id,data){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),W=c.offsetWidth||320,H=100;
+  c.width=W;c.height=H;
+  const vals=data.map(([,d])=>d.log?.sleepHours||0);
+  const max=Math.max(...vals)||1;
+  const pad=6,bw=Math.max(4,(W-pad*2)/(data.length||1)-4);
+  ctx.clearRect(0,0,W,H);
+  vals.forEach((v,i)=>{
+    const x=pad+i*((W-pad*2)/(data.length||1));
+    const h=(v/max)*(H-12),y=H-h-6;
+    ctx.fillStyle=v===0?'#f0f4ff':'#4f6ef7cc';
+    ctx.beginPath();
+    if(ctx.roundRect)ctx.roundRect(x,y,bw,h||3,4);else ctx.rect(x,y,bw,h||3);
+    ctx.fill();
+  });
+}
+
+function renderHistory(){
+  const all=getAllData(),days=Object.entries(all).sort((a,b)=>b[0].localeCompare(a[0]));
+  const list=document.getElementById('historyList');
+  if(!days.length){list.innerHTML='<div class="empty"><div class="icon">📋</div>Δεν υπάρχουν δεδομένα ακόμα</div>';return;}
+  list.innerHTML=days.map(([date,d])=>{
+    const log=d.log||{},fin=d.fin||{};
+    const hrs=log.sleepHours||0;const hrsFmt=fmtSleep(hrs);
+    const totalExp=EXPENSE_CATS.reduce((s,c)=>s+(fin.expenses?.[c]||0),0);
+    return`<div class="history-item" onclick="setDate('${date}');switchTabByName('log')">
+      <div class="history-top">
+        <div class="history-date">${formatShort(date)}</div>
+        <div class="history-badges">
+          ${log.smoke===0?'<span class="badge clean">✓ τσιγάρο</span>':log.smoke>0?'<span class="badge smoke">🚬</span>':''}
+          ${log.weed===0?'<span class="badge clean">✓ χόρτο</span>':log.weed>0?'<span class="badge smoke">🌿</span>':''}
+          ${hrs>0?`<span class="badge sleep">${hrsFmt}</span>`:''}
+          ${log.gym>0?'<span class="badge gym">💪</span>':''}
+          ${totalExp>0?`<span class="badge money">${fmt(totalExp)}</span>`:''}
+        </div>
+      </div>
+      ${log.notes?`<div style="font-size:12px;color:var(--text-muted);margin-top:4px">${log.notes}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function sendAI(){
+  const input=document.getElementById('aiInput'),msg=input.value.trim();
+  if(!msg)return;input.value='';
+  const msgs=document.getElementById('aiMessages');
+  msgs.innerHTML+=`<div class="msg user">${msg}</div><div class="msg loading" id="aiLoading">Σκέφτομαι...</div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  const all=getAllData();
+  const recent=Object.entries(all).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,30).map(([date,d])=>({date,...d}));
+  const sys=`Είσαι προσωπικός βοηθός wellness. Ο χρήστης είναι 25χρονος που κόβει τσιγάρο και χόρτο, έχει διαπυητική ιδρωταδενίτιδα. Παρακολουθεί καταχρήσεις, ύπνο, διατροφή, γυμναστική, έξοδα. Βρίσκε μοτίβα. Ειλικρινής, ζεστός. Δεδομένα: ${JSON.stringify(recent)}. Απάντησε ελληνικά.`;
+  try{
+    const res=await fetch('/.netlify/functions/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:msg}]})});
+    const json=await res.json();
+    document.getElementById('aiLoading').remove();
+    if(json.error){msgs.innerHTML+=`<div class="msg ai">Σφάλμα: ${JSON.stringify(json.error)}</div>`;}
+    else{msgs.innerHTML+=`<div class="msg ai">${json.content?.[0]?.text||'Κάτι πήγε στραβά.'}</div>`;}
+  }catch(e){document.getElementById('aiLoading').textContent='Σφάλμα σύνδεσης.';}
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+// WALLET SETTINGS - stored in localStorage
+function getWalletSettings(){try{return JSON.parse(localStorage.getItem('wallet_settings')||'{}');}catch{return{};}}
+function saveWalletSettings(){
+  const s={
+    lastPaymentDate:document.getElementById('lastPaymentDate')?.value||'',
+    nextPaymentDate:document.getElementById('nextPaymentDate')?.value||'',
+    nextPaymentAmount:parseFloat(document.getElementById('nextPaymentAmount')?.value)||0
+  };
+  localStorage.setItem('wallet_settings',JSON.stringify(s));
+  renderWallet();
+}
+
+function renderWallet(){
+  const all=getAllData();
+  const allDays=Object.entries(all).sort((a,b)=>a[0].localeCompare(b[0]));
+  const today=todayStr();
+
+  // Totals for the whole year (for savings/investments summary)
+  const INIT_SAVINGS=1700, INIT_INVEST=1690;
+  let totalIncome=0,totalInvest=0,totalSavings=0,totalExpenses=0;
+  allDays.forEach(([,d])=>{
+    if(d.fin){
+      totalIncome+=d.fin.income||0;
+      totalInvest+=d.fin.investments||0;
+      totalSavings+=d.fin.savings||0;
+      const exp=EXPENSE_CATS.reduce((s,c)=>s+(d.fin.expenses?.[c]||0),0);
+      totalExpenses+=exp;
+    }
+  });
+
+  // Available = calculated from last payment date
+  const ws=getWalletSettings();
+  const lastPayDate=ws.lastPaymentDate||'';
+  let available=0;
+  if(lastPayDate){
+    // Find total income from last payment date onwards
+    let incomeFromLastPay=0,expFromLastPay=0;
+    allDays.forEach(([date,d])=>{
+      if(date>=lastPayDate&&d.fin){
+        incomeFromLastPay+=d.fin.income||0;
+        const exp=EXPENSE_CATS.reduce((s,c)=>s+(d.fin.expenses?.[c]||0),0);
+        expFromLastPay+=exp;
+      }
+    });
+    available=incomeFromLastPay-expFromLastPay;
+  } else {
+    // Fallback: total income - invest - savings - expenses
+    available=totalIncome-totalInvest-totalSavings-totalExpenses;
+  }
+
+  // Wallet settings
+  const ws=getWalletSettings();
+  if(ws.lastPaymentDate) document.getElementById('lastPaymentDate').value=ws.lastPaymentDate;
+  if(ws.nextPaymentDate) document.getElementById('nextPaymentDate').value=ws.nextPaymentDate;
+  if(ws.nextPaymentAmount) document.getElementById('nextPaymentAmount').value=ws.nextPaymentAmount;
+
+  // Days until next payment
+  let daysLeft=0,perDay=0;
+  if(ws.nextPaymentDate&&ws.nextPaymentDate>today){
+    const diff=new Date(ws.nextPaymentDate+'T12:00:00')-new Date(today+'T12:00:00');
+    daysLeft=Math.ceil(diff/(1000*60*60*24));
+    perDay=daysLeft>0?available/daysLeft:0;
+  }
+
+  // Update UI
+  const balEl=document.getElementById('walletBalance');
+  if(balEl){
+    balEl.textContent=fmtE(available);
+    balEl.style.color=available>=0?'white':'#fca5a5';
+  }
+  const daysEl=document.getElementById('walletDaysLeft');
+  if(daysEl){
+    if(ws.nextPaymentDate&&ws.nextPaymentDate>today){
+      daysEl.textContent='Επόμενη πληρωμή σε '+daysLeft+' μέρες ('+formatDateShort(ws.nextPaymentDate)+')';
+    } else if(ws.nextPaymentDate){
+      daysEl.textContent='Η επόμενη πληρωμή έχει παρέλθει — ενημέρωσε την ημερομηνία';
+    } else {
+      daysEl.textContent='Ορίσε την επόμενη πληρωμή παρακάτω';
+    }
+  }
+  const pdEl=document.getElementById('walletPerDay');
+  if(pdEl) pdEl.textContent=daysLeft>0?fmtE(perDay):'—';
+
+  const savEl=document.getElementById('totalSavings');
+  if(savEl) savEl.textContent=fmtE(INIT_SAVINGS+totalSavings);
+  const invEl=document.getElementById('totalInvestments');
+  if(invEl) invEl.textContent=fmtE(INIT_INVEST+totalInvest);
+  const nwEl=document.getElementById('netWorthValue');
+  if(nwEl) nwEl.textContent=fmtE(INIT_SAVINGS+totalSavings+INIT_INVEST+totalInvest);
+
+  const tiEl=document.getElementById('wTotalIncome');
+  if(tiEl) tiEl.textContent=fmtE(totalIncome);
+  const teEl=document.getElementById('wTotalExpenses');
+  if(teEl) teEl.textContent=fmtE(totalExpenses);
+  const tiEl2=document.getElementById('wTotalInvest');
+  if(tiEl2) tiEl2.textContent=fmtE(totalInvest);
+  const tsEl=document.getElementById('wTotalSavings2');
+  if(tsEl) tsEl.textContent=fmtE(totalSavings);
+}
+
+function fmtE(n){return n.toLocaleString('el-GR',{minimumFractionDigits:1,maximumFractionDigits:1})+' €';}
+
+function switchTab(tab,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');el.classList.add('active');
+  if(tab==='stats')setTimeout(renderStats,50);
+  if(tab==='history')renderHistory();
+  if(tab==='finance'){buildMonthTabs();fillExpenseFields();fillIncomeFields();}
+  if(tab==='wallet')renderWallet();
+}
+function switchTabByName(tab){const tabs=document.querySelectorAll('.tab');const names=['log','wallet','finance','stats','history','ai'];const i=names.indexOf(tab);if(i>=0)switchTab(tab,tabs[i]);}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+
+async function init(){
+  buildMealTable();buildExpenseGrid();
+  currentDate=todayStr()>='2026-01-01'&&todayStr()<='2026-12-31'?todayStr():'2026-01-01';
+  document.getElementById('hiddenDate').value=currentDate;
+  await loadAllFromDB();
+  loadDay();
+}
+init();
+</script>
+</body>
+</html>
