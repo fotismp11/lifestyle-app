@@ -1154,8 +1154,7 @@ function renderWallet(){
     available=totalIncome-totalInvest-totalSavings-totalExpenses;
   }
 
-  // Wallet settings
-  const ws=getWalletSettings();
+  // Wallet settings - fill fields
   if(ws.lastPaymentDate) document.getElementById('lastPaymentDate').value=ws.lastPaymentDate;
   if(ws.nextPaymentDate) document.getElementById('nextPaymentDate').value=ws.nextPaymentDate;
   if(ws.nextPaymentAmount) document.getElementById('nextPaymentAmount').value=ws.nextPaymentAmount;
